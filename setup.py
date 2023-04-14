@@ -1,7 +1,7 @@
 from setuptools import setup
 
 APP = ['main.py']
-DATA_FILES = []
+DATA_FILES =[('', ['helpers.py'])]
 OPTIONS = {
     'argv_emulation': True,
     'iconfile': 'img/icon.icns',

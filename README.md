@@ -1,7 +1,7 @@
 # Ølsalg
 Tar du deg selv i å bli så opphengt i SIGSEGVs og code reviews at du helt glemmer at Norge har uforståelige regler for utsalg av alkohol? Fortvil ikke, med dette programmet får du en veldig naiv counter i statusbaren som viser hvor lang tid du har på deg. I tillegg gir den deg en notification dersom det er 30 minutter igjen av ølsalget. Noen måtte bare gjøre det, ingen årsak.
 
-NB: Tar ikke høyde for helligdager og dager med egne regler. Feel free til å lage PR.
+NB: Tar ikke høyde for dager med spesille regler. Feel free til å lage PR.
 
 <img src=./img/img.png>
 

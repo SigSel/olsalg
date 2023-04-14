@@ -1,5 +1,7 @@
 import rumps
 from datetime import datetime, date
+from helpers import get_closing_time
+
 
 class BeerApp(rumps.App):
     def __init__(self):
@@ -8,12 +10,8 @@ class BeerApp(rumps.App):
     @rumps.timer(1)
     def update(self, _):
         today_ = date.today()
-        today_str = today_.strftime("%A")
-        h = 20
-        if today_str == "Saturday":
-            h = 18
-        elif today_str == "Sunday":
-            h = 0
+
+        h = get_closing_time(today_)
 
         deadline = datetime(year=today_.year, month=today_.month, day=today_.day, hour=h, minute=00)
         time_left = deadline - datetime.now()

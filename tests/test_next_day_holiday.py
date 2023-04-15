@@ -11,7 +11,7 @@ from helpers import is_next_day_holiday
     "day, month, year, expected",
     [
         (1, 1, 2023, False),
-        (23, 12, 2022, True),
+        (24, 12, 2022, True),
         (31, 12, 2021, True),
         (29, 2, 2024, False),
     ]

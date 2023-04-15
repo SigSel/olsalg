@@ -4,13 +4,17 @@ from datetime import datetime, timedelta, date
 def get_closing_time(input_date: date) -> int:
     closing_hour = 20
     weekday = input_date.strftime("%A")
+    check_next_day = is_next_day_holiday(day=input_date.day, month=input_date.month, year=input_date.year)
+    check_for_next_day_exception = is_except_from_next_day_holiday_rule(
+        day=input_date.day, month=input_date.month, year=input_date.year
+    )
     if is_norwegian_holiday(day=input_date.day, month=input_date.month, year=input_date.year):
         closing_hour = 0
     elif weekday == "Sunday":
         closing_hour = 0
     elif weekday == "Saturday":
         closing_hour = 18
-    elif is_next_day_holiday(day=input_date.day, month=input_date.month, year=input_date.year):
+    elif check_next_day and not check_for_next_day_exception:
         closing_hour = 18
 
     return closing_hour
@@ -19,6 +23,18 @@ def get_closing_time(input_date: date) -> int:
 def is_next_day_holiday(day: int, month: int, year: int) -> bool:
     next_date_day, next_date_month, next_date_year = add_days_to_date(day, month, year, 1)
     return is_norwegian_holiday(next_date_day, next_date_month, next_date_year)
+
+
+def is_except_from_next_day_holiday_rule(day: int, month: int, year: int) -> bool:
+    easter_sunday_day, easter_sunday_month = calculate_easter_sunday_date(year)
+    day_before_ascension = add_days_to_date(easter_sunday_day, easter_sunday_month, year, 38)[:-1]
+    exception_days = {
+        (30, 4),
+        (16, 5),
+        day_before_ascension
+    }
+
+    return (day, month) in exception_days
 
 
 def is_norwegian_holiday(day: int, month: int, year: int) -> bool:
@@ -32,8 +48,8 @@ def is_norwegian_holiday(day: int, month: int, year: int) -> bool:
         add_days_to_date(easter_sunday_day, easter_sunday_month, year, 39)[:-1],  # Ascension Day
         add_days_to_date(easter_sunday_day, easter_sunday_month, year, 49)[:-1],  # Pentecost Sunday
         add_days_to_date(easter_sunday_day, easter_sunday_month, year, 50)[:-1],  # Pentecost Monday
-        (24, 12), (25, 12), (26, 12), (31, 12),     # Christmas holidays
-        (1, 5), (17, 5)                            # Norwegian Constitution Day
+        (25, 12), (26, 12),     # Christmas holidays
+        (1, 5), (17, 5)         # Norwegian Constitution Day
     }
 
     return (day, month) in norwegian_holidays
